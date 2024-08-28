@@ -1,0 +1,11 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+*.vs/
+
+# Angular
+node_modules/
+dist/
