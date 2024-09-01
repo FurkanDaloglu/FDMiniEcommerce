@@ -19,8 +19,4 @@
     <ProjectReference Include="..\..\Infrastructure\FDMiniEcommerceAPI.Persistence\FDMiniEcommerceAPI.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
