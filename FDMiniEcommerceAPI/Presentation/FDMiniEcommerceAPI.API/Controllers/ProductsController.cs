@@ -17,8 +17,9 @@ namespace FDMiniEcommerceAPI.API.Controllers
 			_productWriteRepository = productWriteRepository;
 		}
 		[HttpGet]
-		public async Task Get()
+		public async Task<IActionResult> Get()
 		{
+			return Ok("Merhaba");
 			//await _productWriteRepository.AddRangeAsync(new()
 			//{
 			//	new() { Id=Guid.NewGuid(), Name="Product 1", Price =100, CreatedDate=DateTime.UtcNow,Stock=10 },
