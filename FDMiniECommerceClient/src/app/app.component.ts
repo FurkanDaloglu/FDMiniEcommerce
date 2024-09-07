@@ -9,10 +9,7 @@ declare var $: any;
 })
 export class AppComponent {
   title = 'FDMiniECommerceClient';
+  constructor(){
 
-  ngOnInit() {
-    $.get("https://localhost:7285/api/Products", data => {
-      console.log(data);
-    });
   }
 }

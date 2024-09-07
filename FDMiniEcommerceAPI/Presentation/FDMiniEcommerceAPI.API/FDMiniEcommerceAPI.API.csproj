@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\FDMiniEcommerceAPI.Application\FDMiniEcommerceAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\FDMiniEcommerceAPI.Infrastructure\FDMiniEcommerceAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\FDMiniEcommerceAPI.Persistence\FDMiniEcommerceAPI.Persistence.csproj" />
   </ItemGroup>
 
