@@ -3,6 +3,9 @@ import { ProductService } from '../../services/common/models/product.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent, DeleteState } from '../../dialogs/delete-dialog/delete-dialog.component';
 import { async } from 'rxjs';
+import { HttpClientService } from '../../services/common/http-client.service';
+import { AlertifyService, MessageType, Position } from '../../services/admin/alertify.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 declare var $: any;
 
@@ -11,7 +14,8 @@ declare var $: any;
 })
 export class DeleteDirective {
 
-  constructor(private element: ElementRef, private _renderer: Renderer2, private productService: ProductService)
+  constructor(private element: ElementRef, private _renderer: Renderer2, private httpClientService: HttpClientService,
+    private alertify: AlertifyService)
   {
     const img = this._renderer.createElement("img");
     img.setAttribute("src", "../../../../../assets/delete.png");
@@ -22,16 +26,32 @@ export class DeleteDirective {
   }
 
   @Input() id: string;
+  @Input() controller: string;
   @Output() callBack: EventEmitter<any> = new EventEmitter();
 
   @HostListener("click")
   async onClick() {
     this.openDialog(async () => {
-    const td: HTMLTableCellElement = this.element.nativeElement;
-    await this.productService.delete(this.id);
-    $(td.parentElement).fadeOut(2000, () => {
-      this.callBack.emit();
-    });
+      const td: HTMLTableCellElement = this.element.nativeElement;
+      this.httpClientService.delete({
+        controller: this.controller
+      }, this.id).subscribe(data => {
+        $(td.parentElement).fadeOut(2000, () => {
+          this.callBack.emit();
+          this.alertify.message("Ürün başarıyla silinmiştir.", {
+            dismissOthers: true,
+            messageType: MessageType.Success,
+            position: Position.TopRight
+          });
+        });
+      }, (errorResponse: HttpErrorResponse) => {
+        this.alertify.message("Ürün silinirken bir hata oluştu.", {
+          dismissOthers: true,
+          messageType: MessageType.Error,
+          position: Position.TopRight
+        });
+      });
+
     });
 
   }
