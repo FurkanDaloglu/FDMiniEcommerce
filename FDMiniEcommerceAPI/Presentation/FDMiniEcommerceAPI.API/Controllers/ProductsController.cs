@@ -1,4 +1,5 @@
 ﻿using FDMiniEcommerceAPI.Application.Repositories.ProductRepositories;
+using FDMiniEcommerceAPI.Application.RequestParameters;
 using FDMiniEcommerceAPI.Application.ViewModels.Products;
 using FDMiniEcommerceAPI.Domain.Entites;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,10 @@ namespace FDMiniEcommerceAPI.API.Controllers
 			_productWriteRepository = productWriteRepository;
 		}
 		[HttpGet]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> Get([FromQuery]Pagination pagination)
 		{
-			return Ok(_productReadRepository.GetAll(false).Select(p=>new
+			var totalCount = _productReadRepository.GetAll(false).Count();
+			var products= _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p=>new
 			{
 				p.Id,
 				p.Name,
@@ -30,7 +32,12 @@ namespace FDMiniEcommerceAPI.API.Controllers
 				p.Price,
 				p.CreatedDate,
 				p.UpdatedDate
-			}));
+			}).ToList();
+			return Ok(new
+			{
+				totalCount,
+				products
+			});
 		}
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(string id)
